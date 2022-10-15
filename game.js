@@ -67,7 +67,7 @@ function game() {
     while(playerScore != 5 && compScore != 5) {
         let valid = false;
         while(valid == false) {
-            const playerChoice = prompt();
+            var playerChoice = prompt();
             switch(playerChoice.toLowerCase()) {
             case "rock":
             case "paper":
@@ -78,8 +78,9 @@ function game() {
                 console.log("Error: Please enter rock, paper, or scissors.");
             }
         }
+        console.log(playerChoice);
         
-        const compChoice = getComputerChoice();
+        var compChoice = getComputerChoice();
         console.log("player: " + playerChoice +",computer: " + compChoice);
         console.log(playRound(playerChoice, compChoice));
     }
