@@ -1,10 +1,7 @@
 let playerScore = 0;
 let compScore = 0;
 
-
-
 game();
-
 
 function getComputerChoice() {
     let num = Math.floor(Math.random() * 3);
@@ -59,10 +56,8 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function game() {
-
     console.log("Welcome to a game of Rock Paper Scissors.");
     console.log("You will be versing a computer. First to 5 wins!");
-
 
     while(playerScore != 5 && compScore != 5) {
         let valid = false;
@@ -77,9 +72,7 @@ function game() {
             default:
                 console.log("Error: Please enter rock, paper, or scissors.");
             }
-        }
-        console.log(playerChoice);
-        
+        } 
         var compChoice = getComputerChoice();
         console.log("player: " + playerChoice +",computer: " + compChoice);
         console.log(playRound(playerChoice, compChoice));
@@ -89,10 +82,5 @@ function game() {
     } else {
         console.log("You Lost the game. Better luck next time.");
     }
-    
-    
-
-
-    
 }
 
