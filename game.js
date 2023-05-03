@@ -87,9 +87,9 @@ function game() {
 
 
 //Selectors
-const rockVector = document.querySelector('#g2982');
-const paperVector = document.querySelector('#g2906');
-const scissorsVector = document.querySelector('#g3028');
+//const rockVector = document.querySelector('#g2982');
+//const paperVector = document.querySelector('#g2906');
+//const scissorsVector = document.querySelector('#g3028');
 
 const scoreBoard = document.querySelector('#result');
 const playerScoreBoard = document.querySelector('#playerScoreVal');
@@ -110,6 +110,86 @@ function updateScoreBoard(result) {
         //console.log(playRound(button.id,getComputerChoice()));
     //);
 //});
+let stillHovering = '';
+let lastClicked = '';
+const svgButtons = [document.querySelector('#g2982'), document.querySelector('#g2906'), document.querySelector('#g3028')];
+
+svgButtons.forEach((svgBtn) => {
+    svgBtn.addEventListener('mouseover', () => {
+        svgBtn.style.fill = 'blue';
+        svgBtn.style.stroke = 'darkBlue';
+        stillHovering = svgBtn.id;
+    });
+    svgBtn.addEventListener('mouseout', () => {
+        if (lastClicked != svgBtn.id) {
+            svgBtn.style.fill = 'grey';
+            svgBtn.style.stroke = 'black';
+            //svgBtn.style.strokeWidth = '2px';
+        }
+        stillHovering = '';
+    });
+    svgBtn.addEventListener('click', () => {
+        lastClicked = svgBtn.id;
+        let tmpSelection = '';
+        //console.log(svgBtn.id); //debug
+        switch (svgBtn.id) {
+            case 'g2982':
+                tmpSelection = 'rock';
+                break;
+            case 'g2906':
+                tmpSelection = 'paper';
+                break;
+            case 'g3028':
+                tmpSelection = 'scissors';
+                break;
+            default:
+        }
+        let tmpComputerChoice = getComputerChoice();
+
+        let tmp = playRound(tmpSelection, tmpComputerChoice);//need some way to turn scissors into the query selector id
+        console.log(tmp);
+        updateScoreBoard(tmp);
+        
+        if(tmpComputerChoice != tmpSelection) {
+            if(tmpComputerChoice == 'rock') {
+                svgButtons[0].style.fill = 'red';//not sure how im going to access the other svgBtn doms when in this one
+                svgButtons[0].style.stroke = 'darkRed';
+                //svgButtons[0].style.strokeWidth = '2px';
+            } else if (tmpComputerChoice == 'paper'){
+                svgButtons[1].style.fill = 'red'
+                svgButtons[1].style.stroke = 'darkRed'
+                //svgButtons[1].style.strokeWidth = '2px';
+            } else {
+                svgButtons[2].style.fill = 'red'
+                svgButtons[2].style.stroke = 'darkRed'
+                //svgButtons[2].style.strokeWidth = '2px';
+            }
+        } else {
+            svgBtn.style.fill = 'purple';
+            svgBtn.style.stroke = 'darkPurple';
+            //svgBtn.style.strokeWidth = '4px';
+        }
+        setTimeout(function () {
+            clearSelections();}, 2000);
+    });
+});
+
+function clearSelections() {
+    svgButtons.forEach((svgBtn) => {
+        if(stillHovering != svgBtn.id) {
+            svgBtn.style.fill = 'grey';
+            svgBtn.style.stroke = 'black';
+            //svgBtn.style.strokeWidth = '2px';
+        } else {
+            svgBtn.style.fill = 'blue';
+            svgBtn.style.stroke = 'darkBlue';
+            //svgBtn.style.strokeWidth = '2px';
+        }
+    });
+    lastClicked = '';
+}
+
+/*
 
 rockVector.addEventListener('mouseover', () => {
     rockVector.style.fill = 'blue';
@@ -146,11 +226,17 @@ paperVector.addEventListener('mouseout', ()=> {
     paperVector.style.stroke = 'black';
     //paperVector.style.strokeWidth = '1px';
 });
+
+*/
+
 /*need to refactor all of these specific seperate scissor, rock, paper actions into one listener like the buttons iteration.
     need to add a delay variable that gets triggered on click that wont untrigger until mouseout event. This is so you can see the color change of your selection and computers
     might need to use direct javascript code replacement to make functions more generic to eliminate repetion ie: paperVector.style i could use a variable for the paper part and
     edit the code itself so i dont need to retype it for each one
+    may need to edit svg html code to thicken fist stroke width to make it scale better with the others without custom code
 */
+
+/*
 rockVector.addEventListener('click', () => {
     tmpComputerChoice = getComputerChoice();
     if(tmpComputerChoice != 'rock') {
@@ -185,7 +271,7 @@ paperVector.addEventListener('click', () => {
     updateScoreBoard(tmp);
 });
 
-
+*/
 
 
 //Javascript DOM manipulation
@@ -200,13 +286,13 @@ paperVector.addEventListener('click', () => {
 //make a tie red
 
 
-rockVector.style.fill = 'grey';
-rockVector.style.stroke = 'black';
-rockVector.style.strokeWidth = '2px';
+//rockVector.style.fill = 'grey';
+//rockVector.style.stroke = 'black';
+//rockVector.style.strokeWidth = '2px';
 
 
-paperVector.style.fill = 'grey';
-paperVector.style.stroke = 'black';
+//paperVector.style.fill = 'grey';
+//paperVector.style.stroke = 'black';
 
-scissorsVector.style.fill = 'grey';
-scissorsVector.style.stroke = 'black';
+//scissorsVector.style.fill = 'grey';
+//scissorsVector.style.stroke = 'black';
