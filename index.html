@@ -8,9 +8,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Rock Paper Scissors</h1>
-    <h2>First to 5 Wins!</h2>
-    <svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns1="http://sozi.baierouge.fr" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg2" sodipodi:docname="rock_scissors_paper1.svg" viewBox="0 0 691.81 476.62" version="1.1" inkscape:version="0.47 r22583">
+    <div class="gameInfo">
+      <h1>Rock Paper Scissors</h1>
+      <h2>First to 5 Wins!</h2>
+      <div>You choose:     Computer choose: </div>
+      <div id="result">Result</div>
+      <div id="scoreBoard">
+        <div id="playerScore">Score<div id="playerScoreVal">0</div></div>
+        <div id="computerScore">Score<div id="computerScoreVal">0</div></div>
+      </div>
+      
+      
+      <!--insert svg tally marks for user and computer score keeping-->
+      <!---->
+    </div>
+    
+    <div class="svgButtons">
+      <svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns1="http://sozi.baierouge.fr" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg2" sodipodi:docname="rock_scissors_paper1.svg" viewBox="0 0 691.81 476.62" version="1.1" inkscape:version="0.47 r22583">
         <title id="title4919">Rock Scissors Paper</title>
         <sodipodi:namedview id="base" bordercolor="#666666" inkscape:pageshadow="2" inkscape:window-y="-4" pagecolor="#ffffff" inkscape:window-height="753" inkscape:window-maximized="1" inkscape:zoom="0.98994949" inkscape:window-x="-4" showgrid="false" borderopacity="1.0" inkscape:current-layer="layer1" inkscape:cx="491.72724" inkscape:cy="243.04793" inkscape:window-width="1280" inkscape:pageopacity="0.0" inkscape:document-units="px"/>
         <defs id="defs4">
@@ -118,11 +132,13 @@
           </rdf:RDF>
         </metadata>
       </svg>
+    </div>
+    <!--
     <div class="buttons">
         <button id="rock">Rock</button>
         <button id="paper">Paper</button>
         <button id="scissors">Scissors</button>
     </div>
-    <div id="result"></div>
+    <div id="result"></div>-->
 </body>
 </html>

@@ -1,0 +1,34 @@
+body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    /*flex-direction: column;*/
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    /*padding-top: 1%;*/
+}
+.gameInfo {
+    display:flex;
+    flex-direction: column;
+    padding: auto;
+    text-align: center;
+    text-justify: center;
+    font-style: italic;
+}
+#scoreBoard {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.svgButtons {
+    width: 100vw;               /* scale width to 100% of view window */
+    max-width: 100vh;           /* as long as element does not leave window vertically  */
+    height: 68.9vh;             /* scale height to proportions of svg */
+    max-height: 68.9vw;         /* ensure element does not scale beyond proportion */
+    border: 3px solid green;
+}
+
+#result {
+    border: 3px solid black
+}
