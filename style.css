@@ -1,17 +1,22 @@
+html * {
+    border: 1px solid red;
+}
 body {
     display: flex;
     height: 100%;
     width: 100%;
-    /*flex-direction: column;*/
-    flex-wrap: wrap;
+    flex-direction: row;
+    /*flex-wrap: wrap;*/
     align-items: center;
+    
     justify-content: space-around;
-    /*padding-top: 1%;*/
 }
 .gameInfo {
     display:flex;
+    flex-grow: 1;
+    /*flex: 0.25 1 1;*/
     flex-direction: column;
-    padding: auto;
+    flex-wrap: wrap;
     text-align: center;
     text-justify: center;
     font-style: italic;
@@ -23,18 +28,32 @@ body {
     padding: 2px;
     font-style: normal;
 }
-.svgButtons {
-    width: 100vw;               /* scale width to 100% of view window */
-    max-width: 100vh;           /* as long as element does not leave window vertically  */
-    height: 68.9vh;             /* scale height to proportions of svg */
-    max-height: 68.9vw;         /* ensure element does not scale beyond proportion */
+#scoreBoard2ndHalf {
+    
+}
+#svg2 {
+    /*may need to do resizing in js*/
+    /*
+    width: 98vmin;
+    height: 68.9vmin;
+    */
+    
+    width: (1.451* 95vmin);
+    height: 95vmin;
+    
+    max-width: 100vw;
+    max-height: 100vh;
+/*
+    max-width: 100vmin;
+    max-height: 100vmin;
+    */
+
+    /*width: 100vw;                scale width to 100% of view window */
+    /*max-width: 100vh;            as long as element does not leave window vertically  */
+    /*height: 68.9vh;              scale height to proportions of svg */
+    /*max-height: 68.9vw;          ensure element does not scale beyond proportion */
 }
 
 #result {
     border: 2px solid black;
 }
-/*
-#gameEndText {
-    border: 3px solid magenta;
-}
-*/

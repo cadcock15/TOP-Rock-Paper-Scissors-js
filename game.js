@@ -58,7 +58,6 @@ function playRound(playerSelection, computerSelection) {
 const scoreBoard = document.querySelector('#result');
 const playerScoreBoard = document.querySelector('#playerScoreVal');
 const computerScoreBoard = document.querySelector('#computerScoreVal');
-const gameEndText = document.querySelector('#gameEndText');
 const gameInfo = document.querySelector('.gameInfo');
 
 function updateScoreBoard(result) {
@@ -139,7 +138,7 @@ svgButtons.forEach((svgBtn) => {
                 buttonAgain.addEventListener('click', () => {
                     playerScore = 0;
                     compScore = 0;
-                    gameEndText.textContent = '';
+                    scoreBoard.textContent = '';
                     updateScoreBoard('Result');
                     clearSelections();
                     gameInfo.removeChild(buttonAgain);
@@ -166,15 +165,30 @@ function clearSelections() {
 
 function checkGameOver() {
     if (playerScore == 5) {
-        gameEndText.textContent = 'Congratulations! You outsmarted a computer!';
+        scoreBoard.textContent = 'Congratulations! You outsmarted a computer!';
         return true;
     } else if (compScore == 5) {
-        gameEndText.textContent = 'Epic Fail! You were outsmarted by a machine!';
+        scoreBoard.textContent = 'Epic Fail! You were outsmarted by a machine!';
         return true;
     } else {
         return false;
     }
 }
+const bodyElem = document.querySelector('body');
+
+
+window.addEventListener('resize', () => {
+
+    if(window.innerWidth >= window.innerHeight) {
+        bodyElem.style.flexDirection = 'row';
+        gameInfo.style.flexDirection = 'column';
+    } else {
+        bodyElem.style.flexDirection = 'column';
+        gameInfo.style.flexDirection = 'row';
+    }
+});
+//need to add a listener for on page load or something to that effect 
+//need to make the scoreboard fill the space
 
 /*
     may want to adjust flex size of gameInfo and svg to give more ratio to svg
