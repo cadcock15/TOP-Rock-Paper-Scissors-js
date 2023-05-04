@@ -1,8 +1,6 @@
 let playerScore = 0;
 let compScore = 0;
 
-//game();
-
 function getComputerChoice() {
     let num = Math.floor(Math.random() * 3);
     if (num == 0){
@@ -55,45 +53,13 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-    console.log("Welcome to a game of Rock Paper Scissors.");
-    console.log("You will be versing a computer. First to 5 wins!");
-
-    //while(playerScore != 5 && compScore != 5) {
-        let valid = false;
-        while(valid == false) {
-            var playerChoice = prompt();
-            switch(playerChoice.toLowerCase()) {
-            case "rock":
-            case "paper":
-            case "scissors":
-                valid = true;
-                break;
-            default:
-                console.log("Error: Please enter rock, paper, or scissors.");
-            }
-        } 
-        var compChoice = getComputerChoice();
-        console.log("player: " + playerChoice +",computer: " + compChoice);
-        console.log(playRound(playerChoice, compChoice));
-    // }
-    // if(playerScore == 5) {
-    //     console.log("You Won the game! Congratulations!");
-    // } else {
-    //     console.log("You Lost the game. Better luck next time.");
-    // }
-}
-
-
-
 //Selectors
-//const rockVector = document.querySelector('#g2982');
-//const paperVector = document.querySelector('#g2906');
-//const scissorsVector = document.querySelector('#g3028');
 
 const scoreBoard = document.querySelector('#result');
 const playerScoreBoard = document.querySelector('#playerScoreVal');
 const computerScoreBoard = document.querySelector('#computerScoreVal');
+const gameEndText = document.querySelector('#gameEndText');
+const gameInfo = document.querySelector('.gameInfo');
 
 function updateScoreBoard(result) {
     scoreBoard.textContent = result;
@@ -101,190 +67,122 @@ function updateScoreBoard(result) {
     computerScoreBoard.textContent = compScore;
 }
 
-
-//Event listeners
-//const buttons = document.querySelectorAll('.buttons > button');//selects all button child elements in class buttons
-//buttons.forEach((button) => {
-    //button.addEventListener('click', () => {
-        //console.log(button.id);//debug
-        //console.log(playRound(button.id,getComputerChoice()));
-    //);
-//});
-let stillHovering = '';
-let lastClicked = '';
+let lastHovered = '';//stores id of last button to be hovered
+let lockButtons = false;//disables events for a period of time after a button click
 const svgButtons = [document.querySelector('#g2982'), document.querySelector('#g2906'), document.querySelector('#g3028')];
 
 svgButtons.forEach((svgBtn) => {
     svgBtn.addEventListener('mouseover', () => {
-        svgBtn.style.fill = 'blue';
-        svgBtn.style.stroke = 'darkBlue';
-        stillHovering = svgBtn.id;
+        if (!lockButtons) {
+            svgBtn.style.fill = 'blue';
+            svgBtn.style.stroke = 'darkBlue';
+            svgBtn.style.strokeWidth = '3px';
+        }
+        lastHovered = svgBtn.id;
     });
     svgBtn.addEventListener('mouseout', () => {
-        if (lastClicked != svgBtn.id) {
-            svgBtn.style.fill = 'grey';
+        if (!lockButtons) {    
+            svgBtn.style.fill = 'black';
             svgBtn.style.stroke = 'black';
-            //svgBtn.style.strokeWidth = '2px';
+            svgBtn.style.strokeWidth = '1px';
         }
-        stillHovering = '';
+        lastHovered = '';
     });
     svgBtn.addEventListener('click', () => {
-        lastClicked = svgBtn.id;
-        let tmpSelection = '';
-        //console.log(svgBtn.id); //debug
-        switch (svgBtn.id) {
-            case 'g2982':
-                tmpSelection = 'rock';
-                break;
-            case 'g2906':
-                tmpSelection = 'paper';
-                break;
-            case 'g3028':
-                tmpSelection = 'scissors';
-                break;
-            default:
-        }
-        let tmpComputerChoice = getComputerChoice();
-
-        let tmp = playRound(tmpSelection, tmpComputerChoice);//need some way to turn scissors into the query selector id
-        console.log(tmp);
-        updateScoreBoard(tmp);
-        
-        if(tmpComputerChoice != tmpSelection) {
-            if(tmpComputerChoice == 'rock') {
-                svgButtons[0].style.fill = 'red';//not sure how im going to access the other svgBtn doms when in this one
-                svgButtons[0].style.stroke = 'darkRed';
-                //svgButtons[0].style.strokeWidth = '2px';
-            } else if (tmpComputerChoice == 'paper'){
-                svgButtons[1].style.fill = 'red'
-                svgButtons[1].style.stroke = 'darkRed'
-                //svgButtons[1].style.strokeWidth = '2px';
-            } else {
-                svgButtons[2].style.fill = 'red'
-                svgButtons[2].style.stroke = 'darkRed'
-                //svgButtons[2].style.strokeWidth = '2px';
+        if(!lockButtons) {
+            lockButtons = true;
+            let tmpSelection = '';
+            switch (svgBtn.id) {
+                case 'g2982':
+                    tmpSelection = 'rock';
+                    break;
+                case 'g2906':
+                    tmpSelection = 'paper';
+                    break;
+                case 'g3028':
+                    tmpSelection = 'scissors';
+                    break;
+                default:
             }
-        } else {
-            svgBtn.style.fill = 'purple';
-            svgBtn.style.stroke = 'darkPurple';
-            //svgBtn.style.strokeWidth = '4px';
+            let tmpComputerChoice = getComputerChoice();
+
+            let tmp = playRound(tmpSelection, tmpComputerChoice);
+            console.log(tmp);
+            updateScoreBoard(tmp);
+            
+            if(tmpComputerChoice != tmpSelection) {
+                let i = 0;
+                switch(tmpComputerChoice) {
+                    case 'paper':
+                        i=1;
+                        break;
+                    case 'scissors':
+                        i=2;
+                        break;
+                    default:
+                }
+                svgButtons[i].style.fill = 'red'
+                svgButtons[i].style.stroke = 'darkRed'
+                svgButtons[i].style.strokeWidth = '3px';
+            } else {
+                svgBtn.style.fill = 'purple';
+                svgBtn.style.stroke = 'darkPurple';
+                svgBtn.style.strokeWidth = '3px';
+            }
+            if(!checkGameOver()) {
+                setTimeout(function () {
+                    clearSelections();}, 1500);
+            } else {//create a play again button
+                var buttonAgain = document.createElement("button");
+                buttonAgain.textContent = 'Play Again?';
+                gameInfo.appendChild(buttonAgain);
+                buttonAgain.addEventListener('click', () => {
+                    playerScore = 0;
+                    compScore = 0;
+                    gameEndText.textContent = '';
+                    updateScoreBoard('Result');
+                    clearSelections();
+                    gameInfo.removeChild(buttonAgain);
+                });
+            }
+            
         }
-        setTimeout(function () {
-            clearSelections();}, 2000);
     });
 });
 
 function clearSelections() {
     svgButtons.forEach((svgBtn) => {
-        if(stillHovering != svgBtn.id) {
-            svgBtn.style.fill = 'grey';
+        if(lastHovered != svgBtn.id) {
+            svgBtn.style.fill = 'black';
             svgBtn.style.stroke = 'black';
-            //svgBtn.style.strokeWidth = '2px';
+            svgBtn.style.strokeWidth = '1px';
         } else {
             svgBtn.style.fill = 'blue';
             svgBtn.style.stroke = 'darkBlue';
-            //svgBtn.style.strokeWidth = '2px';
         }
     });
-    lastClicked = '';
+    lockButtons = false;
+}
+
+function checkGameOver() {
+    if (playerScore == 5) {
+        gameEndText.textContent = 'Congratulations! You outsmarted a computer!';
+        return true;
+    } else if (compScore == 5) {
+        gameEndText.textContent = 'Epic Fail! You were outsmarted by a machine!';
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /*
-
-rockVector.addEventListener('mouseover', () => {
-    rockVector.style.fill = 'blue';
-    rockVector.style.stroke = 'darkBlue';
-    //rockVector.style.strokeWidth = '4px';
-});
-
-rockVector.addEventListener('mouseout', () => {
-    rockVector.style.fill = 'grey';
-    rockVector.style.stroke = 'black';
-    //rockVector.style.strokeWidth = '2px';
-})
-
-scissorsVector.addEventListener('mouseover', () => {
-    scissorsVector.style.fill = 'blue'
-    scissorsVector.style.stroke = 'darkBlue'
-    //scissorsVector.style.strokeWidth = '2px';
-});
-
-scissorsVector.addEventListener('mouseout', ()=> {
-    scissorsVector.style.fill = 'grey';
-    scissorsVector.style.stroke = 'black';
-    //scissorsVector.style.strokeWidth = '1px';
-});
-
-paperVector.addEventListener('mouseover', ()=> {
-    paperVector.style.fill = 'blue';
-    paperVector.style.stroke = 'darkBlue';
-    //paperVector.style.strokeWidth = '2px';
-});
-
-paperVector.addEventListener('mouseout', ()=> {
-    paperVector.style.fill = 'grey';
-    paperVector.style.stroke = 'black';
-    //paperVector.style.strokeWidth = '1px';
-});
-
-*/
-
-/*need to refactor all of these specific seperate scissor, rock, paper actions into one listener like the buttons iteration.
-    need to add a delay variable that gets triggered on click that wont untrigger until mouseout event. This is so you can see the color change of your selection and computers
-    might need to use direct javascript code replacement to make functions more generic to eliminate repetion ie: paperVector.style i could use a variable for the paper part and
-    edit the code itself so i dont need to retype it for each one
+    may want to adjust flex size of gameInfo and svg to give more ratio to svg
     may need to edit svg html code to thicken fist stroke width to make it scale better with the others without custom code
 */
 
-/*
-rockVector.addEventListener('click', () => {
-    tmpComputerChoice = getComputerChoice();
-    if(tmpComputerChoice != 'rock') {
-        if(tmpComputerChoice == 'paper') {
-            paperVector.style.fill = 'red';
-            paperVector.style.stroke = 'darkRed';
-            //paperVector.style.strokeWidth = '2px';
-        } else {
-            scissorsVector.style.fill = 'red'
-            scissorsVector.style.stroke = 'darkRed'
-            //scissorsVector.style.strokeWidth = '2px';
-        }
-    } else {
-        rockVector.style.fill = 'purple';
-        rockVector.style.stroke = 'darkPurple';
-        //rockVector.style.strokeWidth = '4px';
-    }
-    let tmp = playRound('rock',getComputerChoice());
-    console.log(tmp);
-    updateScoreBoard(tmp);
-});
-
-scissorsVector.addEventListener('click', () => {
-    let tmp = playRound('scissors',getComputerChoice());
-    console.log(tmp);
-    updateScoreBoard(tmp);
-});
-
-paperVector.addEventListener('click', () => {
-    let tmp = playRound('paper',getComputerChoice());
-    console.log(tmp);
-    updateScoreBoard(tmp);
-});
-
-*/
-
-
-//Javascript DOM manipulation
-
-//have the hands enlarge slightly on hover
 //could have the actual svg's transform position to appear that they are attacking the loser
 //could have the svg fade out after you make your selection and play an animation of your choice and computer battling
-
-//make the actual svg's the buttons
-//make the user selection blue
-//make the computer selection green
-//make a tie red
-
 
 //rockVector.style.fill = 'grey';
 //rockVector.style.stroke = 'black';
