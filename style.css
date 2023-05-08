@@ -1,59 +1,116 @@
-html * {
-    border: 1px solid red;
-}
+/* ==========================================================================
+   TOP Rock Paper Scissors - CSS
+   ========================================================================== */
+
+/**
+ * Goals
+ *
+ * 1. Responsive flex layout where my svg picture scales to the size of the 
+ *      viewing window.
+ * 2. Change layout based on screen dimensions to ensure the largest svg size
+ * 
+ */
+
+/* Layout
+   ========================================================================== */
+
+/**
+ * Only contains the most essential css properties
+ *
+ * 1. set max width to ratio h*w of svg viewbox in 
+ *      relationship to browser window height. max-width: 100vw; normally this  
+ *      is how I would do max-width but in combination with flex, the viewbox 
+ *      will keep scaling wider even though the vertical max is reached 
+ *      preventing the svg itslef from scaling. This messes with layout.
+ * 2. set max height to 100% of browser window height
+ */
 body {
+    margin: 0;
+    padding: 0;
     display: flex;
-    height: 100%;
-    width: 100%;
-    flex-direction: row;
-    /*flex-wrap: wrap;*/
-    align-items: center;
-    
-    justify-content: space-around;
+    justify-content: center;
 }
-.gameInfo {
-    display:flex;
-    flex-grow: 1;
-    /*flex: 0.25 1 1;*/
+#gameInfo {
+    display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     text-align: center;
-    text-justify: center;
-    font-style: italic;
+    align-items: center;
+}
+#gameInfoDiv {
+    display:flex;
 }
 #scoreBoard {
     display:flex;
     flex-direction: row;
-    justify-content: space-around;
-    padding: 2px;
-    font-style: normal;
 }
-#scoreBoard2ndHalf {
-    
-}
-#svg2 {
-    /*may need to do resizing in js*/
-    /*
-    width: 98vmin;
-    height: 68.9vmin;
-    */
-    
-    width: (1.451* 95vmin);
-    height: 95vmin;
-    
-    max-width: 100vw;
-    max-height: 100vh;
-/*
-    max-width: 100vmin;
-    max-height: 100vmin;
-    */
-
-    /*width: 100vw;                scale width to 100% of view window */
-    /*max-width: 100vh;            as long as element does not leave window vertically  */
-    /*height: 68.9vh;              scale height to proportions of svg */
-    /*max-height: 68.9vw;          ensure element does not scale beyond proportion */
+svg {
+    max-width: 145.1vh; /* 1 */
+    max-height: 100vh;  /* 2 */
 }
 
-#result {
-    border: 2px solid black;
+/* Styling
+   ========================================================================== */
+
+/**
+ * 1. fix button autosizing with flex
+ */
+
+#scoreBoardTitle > * {
+    font-style: italic;
+    margin-block-start: 0.1em;
+    margin-block-end: 0.1em;
+}
+#scoreBoard {
+    justify-content: space-evenly;
+    padding: 0.25em;
+}
+.scoreText {
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+    max-width: 9ch;
+}
+ #result {
+    font-size: 1.2em;
+    font-style: italic;
+}
+button {
+    margin-top: 2vh;
+    align-self: center;/* 1 */
+}
+
+/* Orientation specific selectors
+   ========================================================================== */
+
+/**
+ * 1. Instead of using #gameInfo {justify-content: center;} this instead 
+ *      references the top margin to place the game text. This prevents jitter 
+ *      as the text wraps to the bottom with gameplay 
+ * 2. Set max-width to allow text wrap since flex will resize a lot otherwise
+ */
+
+@media (orientation: landscape) {
+    body {
+        flex-direction: row;
+    }
+    #gameInfoDiv {
+        flex-direction: column;
+        margin-top: 25vh; /* 1 */
+    }
+    #result {
+        max-width: 28ch; /* 2 */
+    }
+}
+
+@media (orientation: portrait) {
+    body {
+        flex-direction: column;
+        align-items: center; 
+    }
+    #gameInfoDiv {
+        flex-direction: row;
+        align-items: flex-end;
+    }
+    #result {
+        margin-top: 2vh;
+    }
 }

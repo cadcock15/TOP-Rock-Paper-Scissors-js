@@ -1,6 +1,34 @@
+/**
+ * The Odin Project
+ * Rock Paper Scissors
+ * @author: Christopher Adcock
+ */
+
+/* Global Variables
+   ========================================================================== */
+
 let playerScore = 0;
 let compScore = 0;
+let lastHovered = '';//stores id of last button to be hovered
+let lockButtons = false;//disable events for a period of time after button click
 
+/* DOM (HTML) manipulation selectors
+   ========================================================================== */
+
+   const scoreBoard = document.querySelector('#result');
+   const playerScoreBoard = document.querySelector('#playerScoreVal');
+   const computerScoreBoard = document.querySelector('#computerScoreVal');
+   const gameInfoDiv = document.querySelector('#gameInfoDiv');
+   const svgButtons = [document.querySelector('#g2982'), 
+                       document.querySelector('#g2906'), 
+                       document.querySelector('#g3028')];
+
+/* Game Logic
+   ========================================================================== */
+
+/**
+ * @return {string} computer choice of rock, paper,or scissors
+ */
 function getComputerChoice() {
     let num = Math.floor(Math.random() * 3);
     if (num == 0){
@@ -13,6 +41,13 @@ function getComputerChoice() {
     return ("scissors")
 }
 
+/**
+ * Plays a round of rock paper scissors
+ *
+ * @param {string} playerSelection
+ * @param {string} computerSelection
+ * @return {string} The outcome text of a round of rock paper scissors
+ */
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toLowerCase();
     switch(playerSelection) {
@@ -53,101 +88,148 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-//Selectors
+/**
+ * Check for game over and set end game text
+ *
+ * @return {string} The outcome text of a round of rock paper scissors
+ */
+function checkGameOver() {
+    if (playerScore == 5) {
+        scoreBoard.textContent = 'Congratulations! You outsmarted a computer!';
+        return true;
+    } else if (compScore == 5) {
+        scoreBoard.textContent = 'Epic Fail! You were outsmarted by a machine!';
+        return true;
+    } else {
+        return false;
+    }
+}
 
-const scoreBoard = document.querySelector('#result');
-const playerScoreBoard = document.querySelector('#playerScoreVal');
-const computerScoreBoard = document.querySelector('#computerScoreVal');
-const gameInfo = document.querySelector('.gameInfo');
+/**
+ * Process a player btn click selection. Plays the game.
+ *
+ * @return {string} The outcome text of a round of rock paper scissors
+ */
+function svgBtnClick(svgBtn) {
+    if(!lockButtons) {
+        lockButtons = true;
+        let tmpSelection = '';
 
+        //get user choice
+        switch (svgBtn.id) {
+            case 'g2982':
+                tmpSelection = 'rock';
+                break;
+            case 'g2906':
+                tmpSelection = 'paper';
+                break;
+            case 'g3028':
+                tmpSelection = 'scissors';
+                break;
+            default:
+        }
+        //get computer choice
+        let tmpComputerChoice = getComputerChoice();
+
+        let tmp = playRound(tmpSelection, tmpComputerChoice);
+        //console.log(tmp);//debug
+        updateScoreBoard(tmp);
+
+        //update ui to show computer selection
+        if(tmpComputerChoice != tmpSelection) {
+            let i = 0;//0 is rock
+            switch(tmpComputerChoice) {
+                case 'paper':
+                    i=1;
+                    break;
+                case 'scissors':
+                    i=2;
+                    break;
+                default:
+            }
+            svgButtons[i].style.fill = 'red'
+            svgButtons[i].style.stroke = 'darkRed'
+            svgButtons[i].style.strokeWidth = '3px';
+        } else {
+            svgBtn.style.fill = 'purple';
+            svgBtn.style.stroke = 'darkPurple';
+            svgBtn.style.strokeWidth = '3px';
+        }
+
+        //check game over condition met
+        if(!checkGameOver()) {
+            //delay play of game 1.5 seconds to allow you to see the 
+            //computers choice
+             setTimeout(function () {
+                 clearSelections();}, 1500);
+        } else {
+            //create a play again button
+            var buttonAgain = document.createElement("button");
+            buttonAgain.textContent = 'Play Again?';
+            let btnAppendLocation = document.querySelector('#gameInfo');
+
+            //if portrait orientation append to body instead of gameInfo
+            if(window.innerWidth < window.innerHeight) {
+                btnAppendLocation = document.querySelector('body');
+            }
+            btnAppendLocation.appendChild(buttonAgain);
+
+            //create an event listener for the play again button
+            buttonAgain.addEventListener('click', () => {
+                //if clicked reset game
+                playerScore = 0;
+                compScore = 0;
+                scoreBoard.textContent = '';
+                updateScoreBoard('Result');
+                clearSelections();
+                btnAppendLocation.removeChild(buttonAgain);
+            });
+            
+        }
+        
+    }
+}
+
+/* Event Handlers
+   ========================================================================== */
+
+svgButtons.forEach((svgBtn) => {
+    svgBtn.addEventListener('mouseover', () => {svgBtnMouseover(svgBtn)});
+    svgBtn.addEventListener('mouseout', () => {svgBtnMouseout(svgBtn)});
+    svgBtn.addEventListener('click', () => {svgBtnClick(svgBtn)});
+});
+
+
+/* User Interface
+   ========================================================================== */
+/**
+ * Take in resultant text and update UI and score display
+ *
+ * @param {string} The outcome text of a round of rock paper scissors
+ */
 function updateScoreBoard(result) {
     scoreBoard.textContent = result;
     playerScoreBoard.textContent = playerScore;
     computerScoreBoard.textContent = compScore;
 }
 
-let lastHovered = '';//stores id of last button to be hovered
-let lockButtons = false;//disables events for a period of time after a button click
-const svgButtons = [document.querySelector('#g2982'), document.querySelector('#g2906'), document.querySelector('#g3028')];
+function svgBtnMouseover(svgBtn) {
+    if (!lockButtons) {
+        svgBtn.style.fill = 'blue';
+        svgBtn.style.stroke = 'darkBlue';
+        svgBtn.style.strokeWidth = '3px';
+    }
+    lastHovered = svgBtn.id;
+}
 
-svgButtons.forEach((svgBtn) => {
-    svgBtn.addEventListener('mouseover', () => {
-        if (!lockButtons) {
-            svgBtn.style.fill = 'blue';
-            svgBtn.style.stroke = 'darkBlue';
-            svgBtn.style.strokeWidth = '3px';
-        }
-        lastHovered = svgBtn.id;
-    });
-    svgBtn.addEventListener('mouseout', () => {
-        if (!lockButtons) {    
-            svgBtn.style.fill = 'black';
-            svgBtn.style.stroke = 'black';
-            svgBtn.style.strokeWidth = '1px';
-        }
-        lastHovered = '';
-    });
-    svgBtn.addEventListener('click', () => {
-        if(!lockButtons) {
-            lockButtons = true;
-            let tmpSelection = '';
-            switch (svgBtn.id) {
-                case 'g2982':
-                    tmpSelection = 'rock';
-                    break;
-                case 'g2906':
-                    tmpSelection = 'paper';
-                    break;
-                case 'g3028':
-                    tmpSelection = 'scissors';
-                    break;
-                default:
-            }
-            let tmpComputerChoice = getComputerChoice();
-
-            let tmp = playRound(tmpSelection, tmpComputerChoice);
-            console.log(tmp);
-            updateScoreBoard(tmp);
-            
-            if(tmpComputerChoice != tmpSelection) {
-                let i = 0;
-                switch(tmpComputerChoice) {
-                    case 'paper':
-                        i=1;
-                        break;
-                    case 'scissors':
-                        i=2;
-                        break;
-                    default:
-                }
-                svgButtons[i].style.fill = 'red'
-                svgButtons[i].style.stroke = 'darkRed'
-                svgButtons[i].style.strokeWidth = '3px';
-            } else {
-                svgBtn.style.fill = 'purple';
-                svgBtn.style.stroke = 'darkPurple';
-                svgBtn.style.strokeWidth = '3px';
-            }
-            if(!checkGameOver()) {
-                setTimeout(function () {
-                    clearSelections();}, 1500);
-            } else {//create a play again button
-                var buttonAgain = document.createElement("button");
-                buttonAgain.textContent = 'Play Again?';
-                gameInfo.appendChild(buttonAgain);
-                buttonAgain.addEventListener('click', () => {
-                    playerScore = 0;
-                    compScore = 0;
-                    scoreBoard.textContent = '';
-                    updateScoreBoard('Result');
-                    clearSelections();
-                    gameInfo.removeChild(buttonAgain);
-                });
-            }
-            
-        }
-    });
-});
+function svgBtnMouseout(svgBtn) {
+    if (!lockButtons) {    
+        svgBtn.style.fill = 'black';
+        svgBtn.style.stroke = 'black';
+        svgBtn.style.strokeWidth = '1px';
+    }
+    lastHovered = '';
+}
 
 function clearSelections() {
     svgButtons.forEach((svgBtn) => {
@@ -162,49 +244,3 @@ function clearSelections() {
     });
     lockButtons = false;
 }
-
-function checkGameOver() {
-    if (playerScore == 5) {
-        scoreBoard.textContent = 'Congratulations! You outsmarted a computer!';
-        return true;
-    } else if (compScore == 5) {
-        scoreBoard.textContent = 'Epic Fail! You were outsmarted by a machine!';
-        return true;
-    } else {
-        return false;
-    }
-}
-const bodyElem = document.querySelector('body');
-
-
-window.addEventListener('resize', () => {
-
-    if(window.innerWidth >= window.innerHeight) {
-        bodyElem.style.flexDirection = 'row';
-        gameInfo.style.flexDirection = 'column';
-    } else {
-        bodyElem.style.flexDirection = 'column';
-        gameInfo.style.flexDirection = 'row';
-    }
-});
-//need to add a listener for on page load or something to that effect 
-//need to make the scoreboard fill the space
-
-/*
-    may want to adjust flex size of gameInfo and svg to give more ratio to svg
-    may need to edit svg html code to thicken fist stroke width to make it scale better with the others without custom code
-*/
-
-//could have the actual svg's transform position to appear that they are attacking the loser
-//could have the svg fade out after you make your selection and play an animation of your choice and computer battling
-
-//rockVector.style.fill = 'grey';
-//rockVector.style.stroke = 'black';
-//rockVector.style.strokeWidth = '2px';
-
-
-//paperVector.style.fill = 'grey';
-//paperVector.style.stroke = 'black';
-
-//scissorsVector.style.fill = 'grey';
-//scissorsVector.style.stroke = 'black';

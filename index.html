@@ -2,30 +2,36 @@
 
 <html>
 <head>
+  <!--
+      The Odin Project
+      Rock Paper Scissors
+
+      Author: Christopher Adcock
+   -->
     <meta charset="UTF-8">
     <title>Rock Paper Scissors</title>
     <script src ="game.js" async></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="gameInfo">
+  <div id="gameInfo">
+    <div id="gameInfoDiv">
       <div id="scoreBoardTitle">
         <h1>Rock Paper Scissors</h1>
         <h2>First to 5 Wins!</h2>
       </div>
       <div id="scoreBoard2ndHalf">
         <div id="scoreBoard">
-          <div id="playerScore">Score<div id="playerScoreVal">0</div></div>
-          <div id="computerScore">Score<div id="computerScoreVal">0</div></div>
+          <div class="scoreText">Player Score<div id="playerScoreVal">0</div></div>
+          <div class="scoreText">Computer Score<div id="computerScoreVal">0</div></div>
         </div>
-        <div id="result">Result</div>
       </div>
-      
-      
-      <!--insert svg tally marks for user and computer score keeping-->
     </div>
+    <div id="result">Result</div>
+  </div>
     
-    <svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns1="http://sozi.baierouge.fr" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg2" sodipodi:docname="rock_scissors_paper1.svg" viewBox="0 0 691.81 476.62" version="1.1" inkscape:version="0.47 r22583">
+    <!-- svg from https://openclipart.org/detail/63805/rock-scissors-paper-by-mazeo modified by myself, Christopher Adcock -->
+    <svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns1="http://sozi.baierouge.fr" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg2" sodipodi:docname="rock_scissors_paper1.svg" viewBox="0 0 698.73 481.39" version="1.1" width="100%" height="100%" inkscape:version="0.47 r22583">
       <title id="title4919">Rock Scissors Paper</title>
       <sodipodi:namedview id="base" bordercolor="#666666" inkscape:pageshadow="2" inkscape:window-y="-4" pagecolor="#ffffff" inkscape:window-height="753" inkscape:window-maximized="1" inkscape:zoom="0.98994949" inkscape:window-x="-4" showgrid="false" borderopacity="1.0" inkscape:current-layer="layer1" inkscape:cx="491.72724" inkscape:cy="243.04793" inkscape:window-width="1280" inkscape:pageopacity="0.0" inkscape:document-units="px"/>
       <defs id="defs4">
@@ -33,7 +39,7 @@
           <path id="path4038" style="stroke-linejoin:round;stroke-width:.625;fill-rule:evenodd" transform="scale(-.6)" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z"/>
         </marker>
       </defs>
-      <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer" transform="translate(-42.612 -137.16)">
+      <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer" transform="translate(-40 -135)">
         <g id="g4875" transform="matrix(.77244 0 0 .77244 192.28 -14.824)">
           <g id="g2906" transform="matrix(-.84212 .17678 .17678 .84212 677.84 268.6)">
             <path id="path35-2" style="fill:#ffffff00; stroke:none" d="M 0.03 135.371 C 0.12 130.107 11.686 18.925 0.014 16.47 C 22.259 8.675 47.527 6.475 75.107 5.207 C 107.902 3.7 144.382 -1.011 176.487 0.2 C 183.23 0.456 190.042 3.274 196.512 3.956 C 248.966 9.477 303.052 5.707 345.452 21.477 C 348.971 25.016 347.125 33.423 347.955 36.497 C 370.201 39.598 404.843 35.915 396.766 65.282 C 402.715 64.758 405.793 67.101 410.535 67.785 C 415.188 74.014 419.152 86.077 415.54 96.572 C 408.524 106.243 387.134 101.542 374.238 105.334 C 381.758 115.867 375.967 131.983 367.981 137.874 C 336.245 144.104 298.689 144.512 261.601 145.384 C 267.589 151.015 271.672 162.598 267.86 174.17 C 240.413 190.571 199.185 181.72 167.74 186.686 C 152.046 189.165 146.442 193.221 133.948 194.196 C 79.388 198.448 69.005 161.634 30.068 146.635 C 24.96 144.669 18.832 144.198 13.797 142.881 C 10.243 141.948 0.505 143.077 0.03 135.371 Z"></path>
